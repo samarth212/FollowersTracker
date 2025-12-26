@@ -95,9 +95,30 @@ std::unordered_set<std::string> checkNotFollowingBack(const std::unordered_set<s
     return notFollowingBack;
 }
 
+// run clang++ -std=c++17 -O2 -Wall -Wextra main.cpp -o followers 
+// ./followers
+// followers: /Users/samarth/Downloads/instagram-samarth212_-2025-12-26-jZEkw3FI/connections/followers_and_following/followers_1.json
+// following: /Users/samarth/Downloads/instagram-samarth212_-2025-12-26-jZEkw3FI/connections/followers_and_following/following.json
+
 int main() {
-    
+
+    std::string followersPath;
+    std::string followingPath;
+   
+    std::cout << "File path of followers.json:";
+    std::cin >> followersPath;
+    std::cout << "File path of following.json:";
+    std::cin >> followingPath;
     
 
-    
+    std::unordered_set<std::string> followers = getFollowers(followersPath);
+    std::unordered_set<std::string> following = getFollowing(followingPath);
+
+
+    std::unordered_set<std::string> usersNotFollowingBack = checkNotFollowingBack(followers, following);
+    for(const std::string& user : usersNotFollowingBack){
+        std::cout << user << "\n";
+    }
+
+    return 0; 
 }
