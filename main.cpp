@@ -37,10 +37,49 @@ std::unordered_set<std::string> getFollowers(const std::string& path){
                 
                 if (!username.empty()) followers.insert(username);
             }
+            else {
+                throw std::runtime_error("Error parsing file. Unexpected JSON structure.");
+            }
+
         }
+    }
+    else{
+        throw std::runtime_error("Error parsing file. Unexpected JSON structure.");
     }
 
     return followers;
+
+}
+
+std::unordered_set<std::string> getFollowing(const std::string& path){
+
+    std::unordered_set<std::string> following;
+    std::ifstream f(path);
+    if(!f.is_open()){
+        throw std::runtime_error("Could not find file path: " + path);
+    }
+
+    json data;
+    f >> data;
+
+    if(data.is_object() && data.contains("relationships_following") && data["relationships_following"].is_array()){
+
+        for(const auto& entry : data["relationships_following"]){
+
+            if(entry.is_object() && entry.contains("title") && entry["title"].is_string()){
+            
+                std::string username = entry["title"].get<std::string>();
+
+                if (!username.empty()) following.insert(username);
+
+            }
+        }
+    }
+    else{
+        throw std::runtime_error("Error parsing file. Unexpected JSON structure.");
+    }
+
+    return following;
 
 }
 
