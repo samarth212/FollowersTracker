@@ -83,8 +83,21 @@ std::unordered_set<std::string> getFollowing(const std::string& path){
 
 }
 
+std::unordered_set<std::string> checkNotFollowingBack(const std::unordered_set<std::string> followers, const std::unordered_set<std::string> following){
+    std::unordered_set<std::string> notFollowingBack;
+
+    for (const auto& name : following) {
+        if (followers.count(name) == 0) {
+            notFollowingBack.insert(name);
+        }
+    }
+
+    return notFollowingBack;
+}
 
 int main() {
     
+    
+
     
 }
